@@ -1,4 +1,4 @@
-name: .NET Build and Test
+name: .NET CI
 
 on:
   push:
@@ -12,12 +12,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.0.x' # apni .NET version likh do
+        dotnet-version: '9.0.x' # tumhare project ki version ke hisaab se change karo
 
     - name: Restore dependencies
       run: dotnet restore
@@ -25,5 +25,5 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - name: Run Tests
+    - name: Run tests
       run: dotnet test --no-build --verbosity normal
