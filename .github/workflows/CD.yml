@@ -3,11 +3,11 @@ name: CD Pipeline
 on:
   push:
     branches:
-      - main   # jab main branch par push hoga, deploy chalega
+      - main   
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  
 
     steps:
       - name: Checkout source
@@ -16,7 +16,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'   # apni project version ke hisaab se
+          dotnet-version: '9.0.x'   
 
       - name: Restore dependencies
         run: dotnet restore
@@ -28,7 +28,8 @@ jobs:
         run: dotnet publish -c Release -o ./publish
 
       - name: Zip publish folder
-        run: zip -r deploy.zip ./publish
+        run: |
+          powershell Compress-Archive -Path .\publish\* -DestinationPath .\deploy.zip
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
@@ -40,3 +41,4 @@ jobs:
           version_label: v-${{ github.sha }}
           region: ${{ secrets.AWS_REGION }}
           deployment_package: deploy.zip
+          wait_for_deployment: true
