@@ -29,7 +29,11 @@ jobs:
 
       # ✅ Procfile copy step
       - name: Add Procfile
-        run: echo "web: dotnet MyDotnetApp.dll --urls http://+:5000" > ./publish/Procfile
+  run: |
+    cat <<EOT > ./publish/Procfile
+web: dotnet HammerDrop-Auction-App.dll --urls http://+:5000
+EOT
+
         # <-- MyDotnetApp.dll ko tumhare publish folder wali actual DLL ke naam se replace karo
 
       # Zip publish folder
