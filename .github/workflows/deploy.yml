@@ -29,8 +29,8 @@ jobs:
 
       # ✅ Procfile copy step
       - name: Add Procfile
-  run: |
-    cat <<EOT > ./publish/Procfile
+        run: |
+         cat <<EOT > ./publish/Procfile
 web: dotnet HammerDrop-Auction-App.dll --urls http://+:5000
 EOT
 
