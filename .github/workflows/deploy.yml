@@ -16,7 +16,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'   # apni project version ke hisaab se
+          dotnet-version: '9.0.x'   # updated to .NET 9
 
       - name: Restore dependencies
         run: dotnet restore
@@ -27,9 +27,16 @@ jobs:
       - name: Publish project
         run: dotnet publish -c Release -o ./publish --no-restore
 
+      # ✅ Procfile copy step
+      - name: Add Procfile
+        run: echo "web: dotnet MyDotnetApp.dll --urls http://+:5000" > ./publish/Procfile
+        # <-- MyDotnetApp.dll ko tumhare publish folder wali actual DLL ke naam se replace karo
+
+      # Zip publish folder
       - name: Zip publish folder
         run: zip -r deploy.zip ./publish
 
+      # Deploy to Elastic Beanstalk
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
