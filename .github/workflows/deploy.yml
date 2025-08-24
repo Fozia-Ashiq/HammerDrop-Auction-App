@@ -29,7 +29,7 @@ jobs:
 
       - name: Add Procfile
         run: |
-         echo web: dotnet HammerDropAuctionapp.dll --urls http://+:5000 > ./publish/Procfile
+         echo web: dotnet HammerDropAuctionapp.dll --urls http://+:8080 > ./publish/Procfile
          
       - name: Zip publish folder
         run: |
