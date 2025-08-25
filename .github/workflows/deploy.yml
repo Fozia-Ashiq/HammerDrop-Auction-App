@@ -27,10 +27,12 @@ jobs:
       - name: Publish project
         run: dotnet publish -c Release -o ./publish --no-restore
 
-      - name: Add Procfile
+      - name: Add Procfile dynamically
         run: |
-         echo web: dotnet HammerDropAuctionapp.dll --urls http://+:8080 > ./publish/Procfile
-         
+          DLL_NAME=$(ls ./publish/*.dll | head -n 1)
+          echo "web: dotnet $(basename $DLL_NAME) --urls http://+:8080" > ./publish/Procfile
+          cat ./publish/Procfile
+
       - name: Zip publish folder
         run: |
           cd ./publish
